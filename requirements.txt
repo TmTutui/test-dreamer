@@ -1,0 +1,7 @@
+tensorflow
+tensorflow-gpu==2.2.0
+tensorflow_probability
+dm_control
+pandas
+matplotlib
+gym
