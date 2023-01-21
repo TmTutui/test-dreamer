@@ -10,7 +10,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow.compat.v1 as tf1
 import tensorflow_probability as tfp
-from tensorflow.keras.mixed_precision import experimental as prec
+from tensorflow.keras.mixed_precision import LossScaleOptimizer, global_policy
 from tensorflow_probability import distributions as tfd
 
 
@@ -252,7 +252,7 @@ class OneHotDist:
   def __init__(self, logits=None, probs=None):
     self._dist = tfd.Categorical(logits=logits, probs=probs)
     self._num_classes = self.mean().shape[-1]
-    self._dtype = prec.global_policy().compute_dtype
+    self._dtype = global_policy().compute_dtype
 
   @property
   def name(self):
@@ -347,7 +347,7 @@ class Adam(tf.Module):
     self._wd = wd
     self._wdpattern = wdpattern
     self._opt = tf.optimizers.Adam(lr)
-    self._opt = prec.LossScaleOptimizer(self._opt, 'dynamic')
+    self._opt = LossScaleOptimizer(self._opt, 'dynamic')
     self._variables = None
 
   @property
